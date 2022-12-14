@@ -26,6 +26,15 @@ namespace ems
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:4200")
+                                      .AllowAnyHeader().AllowAnyMethod().AllowAnyHeader();
+                                  });
+            });
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService,MailService>();
             services.AddControllers();
@@ -48,6 +57,8 @@ namespace ems
             }
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
