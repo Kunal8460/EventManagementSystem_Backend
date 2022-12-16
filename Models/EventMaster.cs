@@ -9,29 +9,24 @@ namespace ems.Models
 {
     public partial class EventMaster
     {
-        public EventMaster()
-        {
-            BookingMaster = new HashSet<BookingMaster>();
-        }
-
-        public int EventId { get; set; }
-        public string EventTitle { get; set; }
-        public int CategoryId { get; set; }
-        public string EventDescription { get; set; }
-        public DateTime EventStartDate { get; set; }
-        public DateTime EventEndDate { get; set; }
-        public TimeSpan EventStartTime { get; set; }
-        public TimeSpan EventEndTime { get; set; }
-        public string EventVenue { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
+        public int event_id { get; set; }
+        public string event_title { get; set; }
+        public int? category_id { get; set; }
+        public string event_description { get; set; }
+        public string event_start_date { get; set; }
+        public string event_end_date { get; set; }
+        public string event_start_time { get; set; }
+        public string event_end_time { get; set; }
+        public string event_venue { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public string country { get; set; }
         public string ThumbnailImage { get; set; }
         public string GalleryImage { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
         public string CustomerEmail { get; set; }
 
-        public virtual ICollection<BookingMaster> BookingMaster { get; set; }
+        public virtual EventCategory Category { get; set; }
     }
 }

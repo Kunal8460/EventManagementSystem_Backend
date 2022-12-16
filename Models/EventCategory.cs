@@ -9,8 +9,14 @@ namespace ems.Models
 {
     public partial class EventCategory
     {
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public EventCategory()
+        {
+            EventMaster = new HashSet<EventMaster>();
+        }
 
+        public int category_id { get; set; }
+        public string category_name { get; set; }
+
+        public virtual ICollection<EventMaster> EventMaster { get; set; }
     }
 }

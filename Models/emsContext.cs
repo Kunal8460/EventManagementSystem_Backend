@@ -18,14 +18,17 @@ namespace ems.Models
             : base(options)
         {
         }
+
         public virtual DbSet<BookingMaster> BookingMaster { get; set; }
         public virtual DbSet<EventCategory> EventCategory { get; set; }
         public virtual DbSet<EventMaster> EventMaster { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=RENCY\\MSSQLSERVER01;Initial Catalog=ems;Integrated Security=True;Trusted_Connection=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Data Source=Kunal;Initial Catalog=emsDatabase.bacpac;Integrated Security=True");
             }
         }
 
@@ -68,23 +71,17 @@ namespace ems.Models
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updatedAt")
                     .HasColumnType("datetime");
-
-                entity.HasOne(d => d.Event)
-                    .WithMany(p => p.BookingMaster)
-                    .HasForeignKey(d => d.EventId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Event_id");
             });
 
             modelBuilder.Entity<EventCategory>(entity =>
             {
-                entity.HasKey(e => e.CategoryId);
+                entity.HasKey(e => e.category_id);
 
                 entity.ToTable("Event_Category");
 
-                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+                entity.Property(e => e.category_id).HasColumnName("category_id");
 
-                entity.Property(e => e.CategoryName)
+                entity.Property(e => e.category_name)
                     .HasColumnName("category_name")
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -92,87 +89,93 @@ namespace ems.Models
 
             modelBuilder.Entity<EventMaster>(entity =>
             {
-                entity.HasKey(e => e.EventId);
+                entity.HasKey(e => e.event_id);
 
                 entity.ToTable("Event_Master");
 
-                entity.Property(e => e.EventId).HasColumnName("event_id");
+                entity.Property(e => e.event_id).HasColumnName("event_id");
 
-                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+                entity.Property(e => e.category_id).HasColumnName("category_id");
 
-                entity.Property(e => e.City)
-                    .IsRequired()
+                entity.Property(e => e.city)
                     .HasColumnName("city")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Country)
-                    .IsRequired()
+                entity.Property(e => e.country)
                     .HasColumnName("country")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("createdAt")
-                    .HasColumnType("datetime");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CustomerEmail)
-                    .IsRequired()
                     .HasColumnName("customer_email")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EventDescription)
-                    .IsRequired()
+                entity.Property(e => e.event_description)
                     .HasColumnName("event_description")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EventEndDate)
+                entity.Property(e => e.event_end_date)
                     .HasColumnName("event_end_date")
-                    .HasColumnType("date");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EventEndTime).HasColumnName("event_end_time");
+                entity.Property(e => e.event_end_time)
+                    .HasColumnName("event_end_time")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EventStartDate)
+                entity.Property(e => e.event_start_date)
                     .HasColumnName("event_start_date")
-                    .HasColumnType("date");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EventStartTime).HasColumnName("event_start_time");
+                entity.Property(e => e.event_start_time)
+                    .HasColumnName("event_start_time")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EventTitle)
-                    .IsRequired()
+                entity.Property(e => e.event_title)
                     .HasColumnName("event_title")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EventVenue)
-                    .IsRequired()
+                entity.Property(e => e.event_venue)
                     .HasColumnName("event_venue")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.GalleryImage)
-                    .IsRequired()
                     .HasColumnName("gallery_image")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.State)
-                    .IsRequired()
+                entity.Property(e => e.state)
                     .HasColumnName("state")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ThumbnailImage)
-                    .IsRequired()
                     .HasColumnName("thumbnail_image")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updatedAt")
-                    .HasColumnType("datetime");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.EventMaster)
+                    .HasForeignKey(d => d.category_id)
+                    .HasConstraintName("FK_Event_Master_Event_Category");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -16,6 +16,8 @@ namespace ems.Controllers
     {
         private readonly IMailService mailService;
         private static Dictionary<string, int> _user = new Dictionary<string, int>();
+        string mail;
+        int user_otp;
         public EmailController(IMailService mailService)
         {
             this.mailService = mailService;
@@ -25,14 +27,16 @@ namespace ems.Controllers
         {
             try
             {
-                int otp = await mailService.SendEmailAsync(request);
+                user_otp = await mailService.SendEmailAsync(request);
                 if (!_user.ContainsKey(request.ToEmail))
                 {
-                    _user.Add(request.ToEmail, otp);
+                    this.mail = request.ToEmail;
+                    _user.Add(request.ToEmail, user_otp);
                 }
                 else
                 {
-                    _user.Remove(request.ToEmail);
+                    _user.Clear();
+                    _user.Add(request.ToEmail, user_otp);
                 }
                 //HttpContext.Session.SetString("user", request.ToEmail);
                 //HttpContext.Session.SetString("otp", otp.ToString());
