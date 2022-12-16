@@ -48,8 +48,8 @@ namespace ems.Controllers
         {
             try
             {
-                EventMaster data = await _context.EventMaster.Include(x => x.Category).SingleOrDefaultAsync(x => x.event_id == id);
-                //data.Category = await _context.EventCategory.SingleOrDefaultAsync(x=>x.category_id == data.category_id);
+                EventMaster data = await _context.EventMaster.Include(x => x.Category).SingleOrDefaultAsync(x => x.EventId == id);
+                //data.Category = await _context.EventCategory.SingleOrDefaultAsync(x=>x.CategoryId == data.CategoryId);
                 return new Response<EventMaster>
                 {
                     Status = true,
@@ -97,18 +97,18 @@ namespace ems.Controllers
         public Response<EventMaster> EditEvent(int id,EventMaster data)
         {
             try {
-                EventMaster updateData = _context.EventMaster.Where(x => x.event_id == id).SingleOrDefault();
-                updateData.event_title = data.event_title;
-                updateData.category_id = data.category_id;
-                updateData.event_description = data.event_description;
-                updateData.event_start_date = data.event_start_date;
-                updateData.event_end_date = data.event_end_date;
-                updateData.event_start_time = data.event_start_time;
-                updateData.event_end_time = data.event_end_time;
-                updateData.event_venue = data.event_venue;
-                updateData.city = data.city;
-                updateData.state = data.state;
-                updateData.country = data.country;
+                EventMaster updateData = _context.EventMaster.Where(x => x.EventId == id).SingleOrDefault();
+                updateData.EventTitle = data.EventTitle;
+                updateData.CategoryId = data.CategoryId;
+                updateData.EventDescription = data.EventDescription;
+                updateData.EventStartDate = data.EventStartDate;
+                updateData.EventEndDate = data.EventEndDate;
+                updateData.EventStartTime = data.EventStartTime;
+                updateData.EventEndTime = data.EventEndTime;
+                updateData.EventVenue = data.EventVenue;
+                updateData.City = data.City;
+                updateData.State = data.State;
+                updateData.Country = data.Country;
                 updateData.ThumbnailImage = data.ThumbnailImage;
                 updateData.GalleryImage = data.GalleryImage;
                 updateData.CreatedAt = data.CreatedAt;
@@ -138,7 +138,7 @@ namespace ems.Controllers
         {
             try
             {
-               EventMaster removedata= _context.EventMaster.Where(x => x.event_id == id).SingleOrDefault();
+               EventMaster removedata= _context.EventMaster.Where(x => x.EventId == id).SingleOrDefault();
                 _context.EventMaster.Remove(removedata);
                 return new Response<EventMaster>
                 {

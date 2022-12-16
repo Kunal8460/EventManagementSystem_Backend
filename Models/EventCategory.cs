@@ -14,8 +14,8 @@ namespace ems.Models
             EventMaster = new HashSet<EventMaster>();
         }
 
-        public int category_id { get; set; }
-        public string category_name { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
 
         public virtual ICollection<EventMaster> EventMaster { get; set; }
     }

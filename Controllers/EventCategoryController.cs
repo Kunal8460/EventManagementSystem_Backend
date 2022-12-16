@@ -50,7 +50,7 @@ namespace ems.Controllers
                 return new Response<EventCategory> { 
                      Status=true,
                      Message="Data Get",
-                     Data= _context.EventCategory.Where(x=>x.category_id==id).SingleOrDefault()
+                     Data= _context.EventCategory.Where(x=>x.CategoryId==id).SingleOrDefault()
                 };
             }
             catch (Exception e)
@@ -96,8 +96,8 @@ namespace ems.Controllers
         [HttpPut("{id}")]
         public EventCategory EditCategory(int id,EventCategory data)
         {
-            EventCategory UpdateData = _context.EventCategory.Where(x => x.category_id == id).SingleOrDefault();           
-            UpdateData.category_name = data.category_name;
+            EventCategory UpdateData = _context.EventCategory.Where(x => x.CategoryId == id).SingleOrDefault();           
+            UpdateData.CategoryName = data.CategoryName;
             _context.SaveChanges();
             return UpdateData;
         }
@@ -106,7 +106,7 @@ namespace ems.Controllers
         [HttpDelete("{id}")]
         public EventCategory delete(int id)
         {
-            EventCategory removeddata = _context.EventCategory.Where(x => x.category_id == id).FirstOrDefault();
+            EventCategory removeddata = _context.EventCategory.Where(x => x.CategoryId == id).FirstOrDefault();
             _context.EventCategory.Remove(removeddata);
             _context.SaveChanges();
             return removeddata;
