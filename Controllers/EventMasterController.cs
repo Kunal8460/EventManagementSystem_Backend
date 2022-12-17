@@ -140,6 +140,7 @@ namespace ems.Controllers
             {
                EventMaster removedata= _context.EventMaster.Where(x => x.EventId == id).SingleOrDefault();
                 _context.EventMaster.Remove(removedata);
+                _context.SaveChanges();
                 return new Response<EventMaster>
                 {
                     Status = true,
@@ -156,6 +157,22 @@ namespace ems.Controllers
                     Data=null
                 }; 
             }
+        }
+
+        [HttpPost("Search")]
+        //[Route("Search")]
+        public List<EventMaster> Search(Search searchVal)
+        {
+            List<EventMaster> searchResult = _context.EventMaster.Include(c => c.Category).Where(x => x.CategoryId == searchVal.CatId).ToList();
+
+            return searchResult.ToList();
+        }
+
+        [HttpGet("MyEvents")]
+        public List<EventMaster> MyEvents(string email)
+        {
+            List<EventMaster> events = _context.EventMaster.Include(x=>x.Category).Where(e => e.CustomerEmail == email).ToList();
+            return events;
         }
     }
 }
