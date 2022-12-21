@@ -38,7 +38,9 @@ namespace ems
             });
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService,MailService>();
-            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
+
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.AddDbContext<emsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("url")));
             services.AddDistributedMemoryCache();
             services.AddSession(options =>

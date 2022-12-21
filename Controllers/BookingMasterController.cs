@@ -23,14 +23,16 @@ namespace ems.Controllers
         [HttpGet]
         public List<BookingMaster> GetMyBookings(string email)
         {
-            return _context.BookingMaster.Include(x => x.Event).Where(e => e.CustomerEmail == email).ToList();
-        }
 
-        // GET api/<BookingMasterController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            try
+            {
+                List<BookingMaster> bookings =_context.BookingMaster.Include(x => x.Event).Where(e => e.CustomerEmail == email).ToList();
+                return bookings;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // POST api/<BookingMasterController>

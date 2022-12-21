@@ -139,6 +139,9 @@ namespace ems.Controllers
             try
             {
                EventMaster removedata= _context.EventMaster.Where(x => x.EventId == id).SingleOrDefault();
+                List<BookingMaster> booking = _context.BookingMaster.Where(e => e.EventId == id).ToList();
+                _context.BookingMaster.RemoveRange(booking);
+                _context.SaveChanges();
                 _context.EventMaster.Remove(removedata);
                 _context.SaveChanges();
                 return new Response<EventMaster>
@@ -163,9 +166,11 @@ namespace ems.Controllers
         //[Route("Search")]
         public List<EventMaster> Search(Search searchVal)
         {
+
             List<EventMaster> searchResult = _context.EventMaster.Include(c => c.Category).Where(x => x.CategoryId == searchVal.CatId).ToList();
 
             return searchResult.ToList();
+            
         }
 
         [HttpGet("MyEvents")]
