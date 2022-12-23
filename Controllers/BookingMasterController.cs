@@ -53,8 +53,21 @@ namespace ems.Controllers
 
         // PUT api/<BookingMasterController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public BookingMaster Put(int id, BookingMaster value)
         {
+            try
+            {
+            BookingMaster booking = _context.BookingMaster.Find(id);
+                
+            booking.Status = value.Status;
+                _context.SaveChanges();
+            return booking;
+
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         // DELETE api/<BookingMasterController>/5
@@ -62,5 +75,36 @@ namespace ems.Controllers
         public void Delete(int id)
         {
         }
+        [HttpGet]
+        [Route("bookingCount")]
+        public int bookingCount()
+        {
+            int id = _context.BookingMaster.Count();
+            return id;
+        }
+
+        [HttpGet]
+        [Route("getAllBooking")]
+        public List<BookingMaster> GetAllBooking()
+        {
+            return _context.BookingMaster.Include(x=>x.Event).ToList();
+        }
+
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public BookingMaster GetBtId(int id)
+        {
+            try
+            {
+                BookingMaster bookings = _context.BookingMaster.Find(id);
+                return bookings;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

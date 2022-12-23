@@ -111,5 +111,14 @@ namespace ems.Controllers
             _context.SaveChanges();
             return removeddata;
         }
+
+
+        [HttpGet]
+        [Route("categoryCount")]
+        public int categoryCount()
+        {
+            int id = _context.EventCategory.Count();
+            return id;
+        }
     }
 }

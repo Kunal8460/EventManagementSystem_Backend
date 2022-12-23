@@ -179,5 +179,13 @@ namespace ems.Controllers
             List<EventMaster> events = _context.EventMaster.Include(x=>x.Category).Where(e => e.CustomerEmail == email).ToList();
             return events;
         }
+
+        [HttpGet]
+        [Route("eventCount")]
+        public int eventCount()
+        {
+            int id = _context.EventMaster.Count();
+            return id;
+        }
     }
 }
