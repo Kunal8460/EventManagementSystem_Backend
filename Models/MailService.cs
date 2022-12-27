@@ -44,5 +44,26 @@ namespace ems.Models
             Random _rdm = new Random();
             return _rdm.Next(_min, _max);
         }
+
+
+        public async Task SendPass(MailRequest mailRequest)
+        {
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+            email.Subject = mailRequest.Subject;
+            var builder = new BodyBuilder();
+            int otp = GenerateRandomNo();
+            string messageBody = "Congratulations you have been appproved for the Event - " + mailRequest.EventName;
+
+            builder.HtmlBody = messageBody;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.SmtpServer, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
+
+        }
     }
 }

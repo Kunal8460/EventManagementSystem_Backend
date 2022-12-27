@@ -96,7 +96,7 @@ namespace ems.Controllers
         {
             try
             {
-                BookingMaster bookings = _context.BookingMaster.Find(id);
+                BookingMaster bookings = _context.BookingMaster.Include(c => c.Event).SingleOrDefault(x => x.BookingId == id);
                 return bookings;
             }
             catch (Exception ex)

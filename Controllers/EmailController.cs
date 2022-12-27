@@ -66,5 +66,18 @@ namespace ems.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost("GetPass")]
+        public async Task GetPass(MailRequest request)
+        {
+            try
+            {
+                await mailService.SendPass(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
